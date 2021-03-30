@@ -58,6 +58,7 @@ struct ImGui_ImplVulkan_InitInfo
     VkSampleCountFlagBits           MSAASamples;            // >= VK_SAMPLE_COUNT_1_BIT
     const VkAllocationCallbacks*    Allocator;
     void                            (*CheckVkResultFn)(VkResult err);
+    float                           DisplayProfile[27];     // 2x gamma (vec3+pad) 2x rec2020 to dspy (mat3 padded to 3xvec4) and bit depth and window pos and border
 };
 
 // Called by user code
@@ -68,6 +69,8 @@ IMGUI_IMPL_API void     ImGui_ImplVulkan_RenderDrawData(ImDrawData* draw_data, V
 IMGUI_IMPL_API bool     ImGui_ImplVulkan_CreateFontsTexture(VkCommandBuffer command_buffer);
 IMGUI_IMPL_API void     ImGui_ImplVulkan_DestroyFontUploadObjects();
 IMGUI_IMPL_API void     ImGui_ImplVulkan_SetMinImageCount(uint32_t min_image_count); // To override MinImageCount after initialization (e.g. if swap chain is recreated)
+IMGUI_IMPL_API void     ImGui_ImplVulkan_SetDisplayProfile(const float gamma0[3], const float rec2020_to_display0[9], const float gamma1[3], const float rec2020_to_display1[9], int window_width, int bitdepth);
+IMGUI_IMPL_API void     ImGui_ImplVulkan_SetWindowPos(int window_pos);
 
 // Optional: load Vulkan functions with a custom function loader
 // This is only useful with IMGUI_IMPL_VULKAN_NO_PROTOTYPES / VK_NO_PROTOTYPES
